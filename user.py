@@ -17,8 +17,8 @@ def user_interface():
                 place_bid(st.session_state['username'], company['company_id'], num_shares_bid, bid_price)
                 st.success(f"Bid placed for {company['name']}")
 
-    company_name = st.selectbox("Select Company", get_companies())
-    bid_amount = st.number_input("Enter your bid amount", min_value=0.0, format="%.2f")
+    #company_name = st.selectbox("Select Company", get_companies())
+    #bid_amount = st.number_input("Enter your bid amount", min_value=0.0, format="%.2f")
 
     if st.button("Submit Bid"):
         # Save bid to database
