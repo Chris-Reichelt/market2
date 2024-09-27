@@ -75,6 +75,29 @@ def get_user_by_username(username):
     conn.close()
     return user
 
+
+
+def add_bid(username, company_name, bid_amount):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO bids (username, company_name, bid_amount)
+        VALUES (?, ?, ?)
+    ''', (username, company_name, bid_amount))
+    conn.commit()
+    conn.close()
+
+def get_company_list():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM companies")
+    companies = [row['name'] for row in cursor.fetchall()]
+    conn.close()
+    return companies
+
+
+
+
 def add_user(username, password, email, user_type):
     conn = get_connection()
     cursor = conn.cursor()
