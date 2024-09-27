@@ -13,10 +13,12 @@ def initialize_db():
     # Create users table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
-        username TEXT PRIMARY KEY,
-        password TEXT,
-        user_type TEXT
-    );
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        user_type TEXT NOT NULL
+    )
     ''')
 
     # Create companies table
@@ -47,7 +49,7 @@ def initialize_db():
     # Insert default admin user if not exists
     cursor.execute('''
     INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)
-    ''', ('admin', hash_password('admin123'), 'Admin'))
+    ''', ('admin', hash_password('admin123'), 'reicheltcm@gmail.com', 'Admin'))
 
     # Insert default user if not exists
     cursor.execute('''
@@ -65,11 +67,19 @@ def get_user(username):
     conn.close()
     return user
 
-def add_user(username, password, user_type):
+def get_user_by_username(username):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)",
-                   (username, password, user_type))
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+def add_user(username, password, email, user_type):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (username, password, email, user_type) VALUES (?, ?, ?, ?)",
+                   (username, password, email, user_type))
     conn.commit()
     conn.close()
 

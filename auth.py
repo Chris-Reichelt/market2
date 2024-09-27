@@ -45,18 +45,23 @@ def login():
 def register():
     st.title("Register")
     username = st.text_input("Choose a Username")
+    email = st.text_input("Enter Your Email")
     password = st.text_input("Choose a Password", type="password")
     confirm_password = st.text_input("Confirm Password", type="password")
-    user_type = st.selectbox("User Type", ["User"])  # Only allow "User" type
+    user_type = "User"  # Fixed user type for registration
+
     if st.button("Register"):
         if password != confirm_password:
             st.error("Passwords do not match")
+            return
+        if not validate_email(email):
+            st.error("Invalid email address")
             return
         if get_user(username):
             st.error("Username already exists")
         else:
             hashed_password = hash_password(password)
-            add_user(username, hashed_password, user_type)
+            add_user(username, hashed_password, email, user_type)
             st.success("Registration successful! Please log in.")
             # Switch to login screen
             st.session_state['show_login'] = True
