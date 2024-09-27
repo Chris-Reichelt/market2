@@ -42,6 +42,11 @@ def initialize_db():
         FOREIGN KEY(company_id) REFERENCES companies(company_id)
     );
     ''')
+    
+    # Insert default admin user if not exists
+    cursor.execute('''
+    INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)
+    ''', ('admin', hash_password('admin123'), 'Admin'))
 
     conn.commit()
     conn.close()
