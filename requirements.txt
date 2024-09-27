@@ -7,3 +7,4 @@ psycopg2-binary==2.9.7
 requests==2.31.0
 matplotlib==3.8.0
 plotly==5.17.0
+setuptools>=68.0.0
