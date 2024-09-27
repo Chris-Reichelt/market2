@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 import sys
-from auth import login
+from auth import authentication
 from admin import admin_interface
 from user import user_interface
 from db_manager import initialize_db

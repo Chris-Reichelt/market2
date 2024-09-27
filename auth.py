@@ -9,13 +9,11 @@ def authentication():
 
     if st.session_state['show_login']:
         login()
-        st.write("Don't have an account? [Register](#)")
         if st.button("Go to Register"):
             st.session_state['show_login'] = False
             st.experimental_rerun()
     else:
         register()
-        st.write("Already have an account? [Login](#)")
         if st.button("Go to Login"):
             st.session_state['show_login'] = True
             st.experimental_rerun()
