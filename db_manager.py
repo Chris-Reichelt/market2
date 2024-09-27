@@ -1,4 +1,5 @@
 import sqlite3
+from utils import hash_password  # Import from utils.py
 
 def get_connection():
     conn = sqlite3.connect('market.db')
@@ -42,7 +43,7 @@ def initialize_db():
         FOREIGN KEY(company_id) REFERENCES companies(company_id)
     );
     ''')
-    
+
     # Insert default admin user if not exists
     cursor.execute('''
     INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)

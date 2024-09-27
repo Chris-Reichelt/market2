@@ -1,14 +1,10 @@
 import bcrypt
 import streamlit as st
-from db_manager import get_user
-
-def hash_password(password):
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode(), hashed)
+#from db_manager import get_user
+from utils import hash_password, check_password
 
 def login():
+    from db_manager import get_user  # Import inside the function
     st.sidebar.title("Login")
     username = st.sidebar.text_input("Username")
     password = st.sidebar.text_input("Password", type='password')
