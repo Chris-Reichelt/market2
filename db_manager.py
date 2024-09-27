@@ -2,7 +2,7 @@ import sqlite3
 from utils import hash_password  # Import from utils.py
 
 def get_connection():
-    conn = sqlite3.connect('market3.db')
+    conn = sqlite3.connect('market4.db')
     conn.row_factory = sqlite3.Row
     return conn
 
