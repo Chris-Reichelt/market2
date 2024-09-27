@@ -22,7 +22,7 @@ def login():
     st.title("Welcome to the Mach33 Secondary Market")
 
     # Add a space-themed image
-    st.video("space_video.mp4")
+    st.image("space_animation.gif", use_column_width=True)
 
     # Add explanatory text
     st.markdown("""
