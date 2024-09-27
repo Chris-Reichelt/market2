@@ -48,7 +48,7 @@ def initialize_db():
 
     # Insert default admin user if not exists
     cursor.execute('''
-    INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)
+    INSERT OR IGNORE INTO users (username, password, email, user_type) VALUES (?, ?, ?, ?)
     ''', ('admin', hash_password('admin123'), 'reicheltcm@gmail.com', 'Admin'))
 
     # Insert default user if not exists
@@ -98,3 +98,30 @@ def place_bid(username, company_id, num_shares, bid_price):
                    (username, company_id, num_shares, bid_price))
     conn.commit()
     conn.close()
+
+
+def get_user_by_username(username):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+def add_bid(username, company_name, bid_amount):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO bids (username, company_name, bid_amount)
+        VALUES (?, ?, ?)
+    ''', (username, company_name, bid_amount))
+    conn.commit()
+    conn.close()
+
+def get_company_list():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM companies")
+    companies = [row['name'] for row in cursor.fetchall()]
+    conn.close()
+    return companies
