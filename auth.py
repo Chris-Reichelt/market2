@@ -22,7 +22,7 @@ def login():
     st.title("Welcome to the Mach33 Secondary Market")
 
     # Add a space-themed image
-    st.image("space_animation.gif", use_column_width=True)
+    st.image("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGk5dDBhdzBsMXdhaTkxcWFkZWFoNDBia3ZrbnB4bzF5OHBzZ2cxdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cEYFeE4wJ6jdDVBiiIM/giphy.webp", use_column_width=True)
 
     # Add explanatory text
     st.markdown("""
