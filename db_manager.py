@@ -5,6 +5,47 @@ def get_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def initialize_db():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Create users table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        username TEXT PRIMARY KEY,
+        password TEXT,
+        user_type TEXT
+    );
+    ''')
+
+    # Create companies table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS companies (
+        company_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        shares INTEGER,
+        market_price REAL,
+        buy_price REAL
+    );
+    ''')
+
+    # Create bids table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS bids (
+        bid_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        company_id INTEGER,
+        num_shares INTEGER,
+        bid_price REAL,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(username) REFERENCES users(username),
+        FOREIGN KEY(company_id) REFERENCES companies(company_id)
+    );
+    ''')
+
+    conn.commit()
+    conn.close()
+
 def get_user(username):
     conn = get_connection()
     cursor = conn.cursor()
