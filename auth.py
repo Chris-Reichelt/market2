@@ -3,18 +3,54 @@ import streamlit as st
 #from db_manager import get_user
 from utils import hash_password, check_password
 
+def authentication():
+    if 'show_login' not in st.session_state:
+        st.session_state['show_login'] = True
+
+    if st.session_state['show_login']:
+        login()
+        st.write("Don't have an account? [Register](#)")
+        if st.button("Go to Register"):
+            st.session_state['show_login'] = False
+            st.experimental_rerun()
+    else:
+        register()
+        st.write("Already have an account? [Login](#)")
+        if st.button("Go to Login"):
+            st.session_state['show_login'] = True
+            st.experimental_rerun()
+
 def login():
-    from db_manager import get_user  # Import inside the function
-    st.sidebar.title("Login")
-    username = st.sidebar.text_input("Username")
-    password = st.sidebar.text_input("Password", type='password')
-    user_type = st.sidebar.selectbox("Login as", ["User", "Admin"])
-    if st.sidebar.button("Login"):
+    st.title("Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
         user = get_user(username)
-        if user and user['user_type'] == user_type and check_password(password, user['password']):
+        if user and check_password(password, user['password']):
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
-            st.session_state['user_type'] = user_type
-            st.sidebar.success(f"Logged in as {user_type}")
+            st.session_state['user_type'] = user['user_type']
+            st.success("Logged in successfully!")
+            st.experimental_rerun()
         else:
-            st.sidebar.error("Invalid username or password")
+            st.error("Invalid username or password")
+
+def register():
+    st.title("Register")
+    username = st.text_input("Choose a Username")
+    password = st.text_input("Choose a Password", type="password")
+    confirm_password = st.text_input("Confirm Password", type="password")
+    user_type = st.selectbox("User Type", ["User"])  # Only allow "User" type
+    if st.button("Register"):
+        if password != confirm_password:
+            st.error("Passwords do not match")
+            return
+        if get_user(username):
+            st.error("Username already exists")
+        else:
+            hashed_password = hash_password(password)
+            add_user(username, hashed_password, user_type)
+            st.success("Registration successful! Please log in.")
+            # Switch to login screen
+            st.session_state['show_login'] = True
+            st.experimental_rerun()
