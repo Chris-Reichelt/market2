@@ -17,38 +17,3 @@ def user_interface():
                 place_bid(st.session_state['username'], company['company_id'], num_shares_bid, bid_price)
                 st.success(f"Bid placed for {company['name']}")
 
-    #company_name = st.selectbox("Select Company", get_companies())
-    #bid_amount = st.number_input("Enter your bid amount", min_value=0.0, format="%.2f")
-
-    if st.button("Submit Bid"):
-        # Save bid to database
-        add_bid(
-            username=st.session_state['username'],
-            company_name=company_name,
-            bid_amount=bid_amount
-        )
-
-        # Get user email
-        user = get_user_by_username(st.session_state['username'])
-        user_email = user['email']
-
-        # Send email to user
-        user_subject = "Your Bid Has Been Received"
-        user_content = f"""
-        <p>Dear {st.session_state['username']},</p>
-        <p>Your bid of ${bid_amount:.2f} for {company_name} has been received.</p>
-        <p>Thank you for your interest.</p>
-        """
-        send_email(user_email, user_subject, user_content)
-
-        # Send email to admin
-        admin_email = st.secrets["admin"]["email"]
-        admin_subject = f"New Bid Received from {st.session_state['username']}"
-        admin_content = f"""
-        <p>A new bid has been placed by {st.session_state['username']}.</p>
-        <p>Company: {company_name}</p>
-        <p>Bid Amount: ${bid_amount:.2f}</p>
-        """
-        send_email(admin_email, admin_subject, admin_content)
-
-        st.success("Bid submitted successfully. A confirmation email has been sent.")
