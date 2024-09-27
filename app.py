@@ -1,9 +1,12 @@
 # app.py
 import streamlit as st
+import sys
 from auth import login
 from admin import admin_interface
 from user import user_interface
 from db_manager import initialize_db
+
+st.write(f"Python version: {sys.version}")
 
 def main():
     st.set_page_config(page_title="Secondary Market App")
