@@ -54,7 +54,7 @@ def initialize_db():
     # Insert default user if not exists
     cursor.execute('''
     INSERT OR IGNORE INTO users (username, password, email, user_type) VALUES (?, ?, ?, ?)
-    ''', ('user', hash_password('user123'),'reicheltcm@gmail.com' 'User'))
+    ''', ('user', hash_password('user123'),'reicheltcm@gmail.com', 'User'))
 
     conn.commit()
     conn.close()
