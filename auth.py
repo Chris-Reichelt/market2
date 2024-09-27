@@ -19,7 +19,16 @@ def authentication():
             st.experimental_rerun()
 
 def login():
-    st.title("Login")
+    st.title("Welcome to the Mach33 Secondary Market")
+
+    # Add a space-themed image
+    st.image("space_image.jpg", use_column_width=True)
+
+    # Add explanatory text
+    st.markdown("""
+    ### A Secondary Market for Mach33 Portfolio Companies
+    Explore investment opportunities and manage your liquidity with ease!
+    """)
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     if st.button("Login"):
