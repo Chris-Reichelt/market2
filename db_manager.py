@@ -67,11 +67,11 @@ def get_user(username):
     conn.close()
     return user
 
-def add_user(username, password, user_type):
+def add_user(username, password,email, user_type):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)",
-                   (username, password, user_type))
+    cursor.execute("INSERT INTO users (username, password,email, user_type) VALUES (?, ?, ?, ?)",
+                   (username, password, email, user_type))
     conn.commit()
     conn.close()
 
