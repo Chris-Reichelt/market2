@@ -1,7 +1,7 @@
 import bcrypt
 import streamlit as st
 from db_manager import get_user, add_user
-from utils import hash_password, check_password
+from utils import hash_password, check_password, validate_email
 
 def authentication():
     if 'show_login' not in st.session_state:
