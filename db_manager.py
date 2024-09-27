@@ -49,6 +49,11 @@ def initialize_db():
     INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)
     ''', ('admin', hash_password('admin123'), 'Admin'))
 
+    # Insert default user if not exists
+    cursor.execute('''
+    INSERT OR IGNORE INTO users (username, password, user_type) VALUES (?, ?, ?)
+    ''', ('user', hash_password('user123'), 'User'))
+
     conn.commit()
     conn.close()
 
